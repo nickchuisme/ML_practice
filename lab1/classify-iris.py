@@ -31,10 +31,10 @@ num_features = 4
 # classify and plot data
 #--
 plt.figure()
-plt.rc( 'xtick', labelsize=8 )
-plt.rc( 'ytick', labelsize=8 )
-for i in range(0,num_features):
-    for j in range(i+1,num_features):
+plt.rc('xtick', labelsize=8)
+plt.rc('ytick', labelsize=8)
+for i in range(0, num_features):
+    for j in range(i+1, num_features):
         # classify using two corresponding features
         pair = [i, j]
         X = iris.data[:, pair]
