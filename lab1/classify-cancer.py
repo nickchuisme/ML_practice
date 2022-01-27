@@ -6,7 +6,7 @@ bc = load_breast_cancer()
 
 n_classes = 2
 plot_colors = "bry"
-plot_step = 0.02
+plot_step = 0.1
 num_features = 4
 
 plt.figure()
