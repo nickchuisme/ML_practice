@@ -20,7 +20,7 @@ false_positive_rate = []
 cm = Confusion_matrix()
 
 for threshold in np.arange(0, 1, 0.1):
-    new_prediction = np.where(prediction < threshold, 0, 1)
+    new_prediction = np.where(prediction < threshold, 1, 0)
     new_prediction = [p[0] for p in new_prediction]
     cm.calculate_matrix(new_prediction, y_test)
     true_positive_rate.append(cm.true_positive / (cm.true_positive + cm.false_negative))
