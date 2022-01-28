@@ -20,9 +20,9 @@ class Confusion_matrix:
         for p, y in zip(prediction, y_test):
             if p and y:
                 self.true_positive += 1
-            else:
+            elif p and not y:
                 self.false_positive += 1
-            if not p and y:
+            elif not p and y:
                 self.false_negative += 1
             else:
                 self.true_negative += 1
