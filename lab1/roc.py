@@ -26,6 +26,7 @@ for threshold in np.arange(0, 1, 0.1):
     true_positive_rate.append(cm.true_positive / (cm.true_positive + cm.false_negative))
     false_positive_rate.append(cm.false_positive / (cm.false_positive + cm.true_negative))
 
+# normalise
 true_positive_rate = (true_positive_rate - np.min(true_positive_rate))/(np.max(true_positive_rate) - np.min(true_positive_rate))
 false_positive_rate = (false_positive_rate - np.min(false_positive_rate))/(np.max(false_positive_rate) - np.min(false_positive_rate))
 
