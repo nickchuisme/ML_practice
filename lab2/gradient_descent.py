@@ -8,18 +8,18 @@ from sklearn.model_selection import train_test_split
 
 
 
-def gradient_descent(X_train, y_train, n_iter=1000, lr=0.0075, tolerance=1e-3):
+def gradient_descent(X_train, y_train, n_iter=100000, lr=0.0075, tolerance=1e-3):
     w_0, w_1 = 0., 1.
     err_lst = []
 
     for i in range(n_iter):
         idx = np.random.choice(range(len(X_train)))
-        p_i = w_0 + w_1 * X_train[idx]
+        p_i = w_0 + w_1 * X_train[idx, 0]
         err = y_train[idx] - p_i
         err_lst.append(np.abs(err))
 
         w_0 += lr * err
-        w_1 += lr * err * X_train[idx]
+        w_1 += lr * err * X_train[idx, 0]
 
         if np.abs(err) < tolerance:
             print(f'Break in {i+1} epoch')
@@ -29,7 +29,7 @@ def gradient_descent(X_train, y_train, n_iter=1000, lr=0.0075, tolerance=1e-3):
     # plt.show()
     return w_0, w_1
 
-def multi_gradient_descent(X_train, y_train, n_iter=1000, lr=0.0075, tolerance=1e-3):
+def multi_gradient_descent(X_train, y_train, n_iter=100000, lr=0.0075, tolerance=1e-3):
     w_0, w_1, w_2, w_3 = 0., 1., 1., 1.
     err_lst = []
 
