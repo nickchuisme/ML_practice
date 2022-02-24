@@ -1,0 +1,26 @@
+1.	Split the data into training and test sets
+2.	#Calculate prior probabilities of hypotheses.
+3.	For each sample in the training set:
+4. 		If sample pertains to hypothesis [i]:
+5.			Increment a count for hypothesis [i]
+6.	For each hypothesis[i]:
+7.		Prior probability [i] = count for hypothesis[i] / (no. samples in training set)
+8.	#Calculate likelihood.
+9.	Limit training data to fewer features
+10.	For each sample in the training set:
+11.		If sample pertains to hypothesis [i]:
+12.			For each feature[k]:
+13.				Increment a count for each feature value[j] for hypothesis [i]
+14.	For each feature[k]:
+15.		For each hypothesis[i]:
+16.			For each feature value[j]:
+17.				count for feature value[k][i][j] = count for feature value[k][i][j] / count for hypothesis[i]
+18.	#Prediction on test data.
+19.	For each sample in the test set:
+20.		For each hypothesis[i]:
+21.			For each feature[k]
+22.				Posterior probability[i] = Posterior probability[i] * count for feature value[k][i][test sample feature value]
+23.			Posterior probability[i] = Posterior probability[i] * Prior probability[i]
+24.		Prediction = Maximum hypothesis(Posterior probability) 
+25.		If Prediction is correct:
+26.			Increment count of correct score.
