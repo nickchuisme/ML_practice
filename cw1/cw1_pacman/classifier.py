@@ -66,24 +66,6 @@ class Classifier:
         # return the predicted number
         return np.array(final_predictions)
 
-    def bootstrap(self, data, target):
-        """
-        Do bootstrap and collect random samples
-        """
-        idx = np.random.choice(range(len(data)), size=round(len(data) * 0.9), replace=True)
-        return np.array(data)[idx], np.array(target)[idx]
-
-    def model_train(self, data, target):
-        """
-        Here is the function that is doing "fitting" data.
-        """
-        for i in range(self.n_trees):
-            # do bootstrap before fitting
-            X, y = self.bootstrap(data, target)
-            # fit each decision tree and save it to the forest
-            tree_i = DecisionTreeClassifier(criterion=self.criterion, max_features=self.max_features).fit(X, y)
-            self.forest.append(tree_i)
-
     def cross_validation(self, X, y, fold=5):
         """
         Splitting data into training and testing data to do cross-validation 
@@ -102,3 +84,21 @@ class Classifier:
             accuracies.append(accuracy)
         # return the mean of the accuracy of each model
         return np.mean(accuracies)
+
+    def bootstrap(self, data, target):
+        """
+        Do bootstrap and collect random samples
+        """
+        idx = np.random.choice(range(len(data)), size=round(len(data) * 0.9), replace=True)
+        return np.array(data)[idx], np.array(target)[idx]
+
+    def model_train(self, data, target):
+        """
+        Here is the function that is doing "fitting" data.
+        """
+        for i in range(self.n_trees):
+            # do bootstrap before fitting
+            X, y = self.bootstrap(data, target)
+            # fit each decision tree and save it to the forest
+            tree_i = DecisionTreeClassifier(criterion=self.criterion, max_features=self.max_features).fit(X, y)
+            self.forest.append(tree_i)
