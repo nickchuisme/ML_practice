@@ -1,18 +1,19 @@
 from pacman import Directions
 from game import Agent
-import random
 import game
 import util
 import numpy as np
 
 class BanditAgent(Agent):
 
-    def __init__(self, bandit=5, epsilon=0.1):
-        self.bandit = bandit
+    def __init__(self, arms=5, epsilon=0.1, temperature=0.1, method='softmax'):
+        self.arms = arms
         self.epsilon = epsilon
-        self.q_star = list(np.zeros(bandit, dtype=float))
-        self.count = np.zeros(bandit, dtype=int)
+        self.temperature = temperature
+        self.method = method
 
+        self.q_star = list(np.zeros(arms, dtype=float))
+        self.count = np.zeros(arms, dtype=int)
         self.score = 0
         self.direction = {
             'East': 0,
@@ -30,7 +31,10 @@ class BanditAgent(Agent):
         if Directions.STOP in legal:
             legal.remove(Directions.STOP)
 
-        return self.greedy(legal)
+        if self.method == 'greedy':
+            return self.greedy(legal)
+        elif self.method == 'softmax':
+            return self.softmax(legal)
 
     def update_reward(self, state):
         # get reward of previous action
@@ -51,7 +55,15 @@ class BanditAgent(Agent):
         exploitation = np.random.choice([True, False], p=[1 - self.epsilon, self.epsilon])
         if exploitation:
             legal_of_q = [self.q_star[self.direction[legal]] for legal in legals]
-            action_idx = list(np.where(np.array(legal_of_q) == max(legal_of_q)))[0]
-            return legals[action_idx[0]]
+            action_idx = list(np.where(np.array(legal_of_q) == max(legal_of_q)))[0][0]
+            return legals[action_idx]
         else:
             return np.random.choice(legals)
+
+    def softmax(self, legals):
+        temperature = self.temperature
+        legal_of_q = [self.q_star[self.direction[legal]] for legal in legals]
+        z = np.sum(np.exp(np.array(legal_of_q) / temperature))
+        probs = np.exp(np.array(legal_of_q) / temperature) / z
+
+        return np.random.choice(legals, p=probs)
